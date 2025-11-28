@@ -11,12 +11,9 @@ const isProtectedRoute = createRouteMatcher([
     '/api/checks(.*)',
 ]);
 
-export default clerkMiddleware(async (auth, req) => {
+export default clerkMiddleware((auth, req) => {
     if (isProtectedRoute(req)) {
-        const authObj = await auth();
-        if (!authObj.userId) {
-            throw new Error('Unauthorized');
-        }
+        auth().protect();
     }
 });
 
